@@ -48,7 +48,7 @@ export function MemoryTrackerPage() {
         </div>
         <div className="space-y-4">
           <TerminalController />
-          {!(mode === "offline") && <StorageEngineMetrics />}
+          {/* {!(mode === "offline") && <StorageEngineMetrics />} */}
           {/* {import.meta.env.VITE_DISK_METRICS_FLAG === "true" && (
             <MemoryMetricsGrid />
           )} */}
