@@ -18,7 +18,13 @@
 *
 */
 
-import { ModeType } from "@/components/toggle";
-import { createContext } from "react";
+import { ResView } from "@/components/graphs/resView";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-export const ModeContext = createContext<ModeType>("prod");
+export function ResViewPage() {
+  return (
+    <PageLayout>
+      <ResView />
+    </PageLayout>
+  );
+} 

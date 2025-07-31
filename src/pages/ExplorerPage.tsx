@@ -18,7 +18,13 @@
 *
 */
 
-import { ModeType } from "@/components/toggle";
-import { createContext } from "react";
+import { Explorer } from "@/components/graphs/explorer";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-export const ModeContext = createContext<ModeType>("prod");
+export function ExplorerPage() {
+  return (
+    <PageLayout>
+      <Explorer />
+    </PageLayout>
+  );
+} 

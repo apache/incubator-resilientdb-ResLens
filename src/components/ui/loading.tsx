@@ -18,7 +18,15 @@
 *
 */
 
-import { ModeType } from "@/components/toggle";
-import { createContext } from "react";
+import { Loader2 } from "lucide-react";
 
-export const ModeContext = createContext<ModeType>("prod");
+export function Loading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 to-slate-900 text-slate-50 flex items-center justify-center">
+      <div className="flex flex-col items-center space-y-4">
+        <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+        <p className="text-slate-300">Checking connection...</p>
+      </div>
+    </div>
+  );
+} 

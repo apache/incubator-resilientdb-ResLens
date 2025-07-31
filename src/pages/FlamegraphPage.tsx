@@ -18,7 +18,19 @@
 *
 */
 
-import { ModeType } from "@/components/toggle";
-import { createContext } from "react";
+import { Flamegraph } from "@/components/graphs/flamegraph";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-export const ModeContext = createContext<ModeType>("prod");
+export function FlamegraphPage() {
+  const fromTime = Date.now() - 3600000;  
+  const untilTime = Date.now();
+
+  return (
+    <PageLayout>
+      <Flamegraph 
+        from={fromTime} 
+        until={untilTime}
+      />
+    </PageLayout>
+  );
+} 

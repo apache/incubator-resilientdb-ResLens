@@ -18,7 +18,13 @@
 *
 */
 
-import { ModeType } from "@/components/toggle";
-import { createContext } from "react";
+import { CpuPage as CpuPageComponent } from "@/components/graphs/cpuCard";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-export const ModeContext = createContext<ModeType>("prod");
+export function CpuPage() {
+  return (
+    <PageLayout>
+      <CpuPageComponent />
+    </PageLayout>
+  );
+} 

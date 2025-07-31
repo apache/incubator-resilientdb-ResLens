@@ -18,7 +18,13 @@
 *
 */
 
-import { ModeType } from "@/components/toggle";
-import { createContext } from "react";
+import { MemoryTrackerPage } from "@/components/graphs/MemorySpecs/memoryTrackerPage";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-export const ModeContext = createContext<ModeType>("prod");
+export function MemoryPage() {
+  return (
+    <PageLayout>
+      <MemoryTrackerPage />
+    </PageLayout>
+  );
+} 
