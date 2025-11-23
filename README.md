@@ -17,6 +17,13 @@
 # under the License.
 #
 
+**DEPRECATION NOTICE**
+
+This repository is deprecated.
+Active development now continues in the [ResilientDB Monorepo](https://github.com/apache/incubator-resilientdb).
+
+The ResilientDB ResLens can be found at [ecosystem/monitoring/reslens](https://github.com/apache/incubator-resilientdb/tree/master/ecosystem/monitoring/reslens).
+
 # [ResLens](https://blog.resilientdb.com/2024/12/07/MemLens.html)
 
 ResLens is a comprehensive CPU and memory profiler for ResilientDB which aims to provide granular performance metrics by integrating profiling tools like eBPF, node exporter, process exporter, LevelDB internal statistics and custom prometheus hooks. We aim to provide a platform which provides database specific metrics that provides detailed information on what happens under the hood and help optimize system performance. This is an ambitious idea which we are improving on constantly but are proud to share a packaged version of ResLens currently.
