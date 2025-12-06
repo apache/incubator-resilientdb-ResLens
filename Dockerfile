@@ -35,7 +35,7 @@ WORKDIR /app
 # Stage 1: Dependencies
 FROM base AS deps
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 # Stage 2: Builder
 FROM base AS builder
