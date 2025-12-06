@@ -20,6 +20,7 @@
 
 //@ts-nocheck
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Github } from "lucide-react";
@@ -27,14 +28,16 @@ import { DependencyGraph } from "../graphs/dependency";
 import { startCase } from "@/lib/utils";
 import { CpuPage } from "../graphs/cpuCard";
 import { MemoryTrackerPage } from "../graphs/MemorySpecs/memoryTrackerPage";
-import { ToggleState, ModeType } from "../toggle";
-import { ModeContext } from "@/hooks/context";
-import { middlewareApi } from "@/lib/api";
+import { ToggleState } from "../toggle";
+import { useMode } from "@/contexts/ModeContext";
 import Banner from "../ui/banner";
 import { TourProvider, useTour } from "@/hooks/use-tour";
 import { Tour } from "../ui/tour";
 import { Explorer } from "../graphs/explorer";
 import { ResView } from "../graphs/resView";
+import { QueryStats } from "../graphs/queryStats";
+import { DashboardNavigation } from "../navigation/DashboardNavigation";
+import { Loading } from "../ui/loading";
 
 const tabVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -90,44 +93,47 @@ export function Dashboard() {
 
 function DashboardComponent() {
   const { setSteps } = useTour();
-  const [activeTab, setActiveTab] = useState("cpu");
-  const [mode, setMode] = useState<ModeType>("offline");
-
-  async function getMode() {
-    try {
-      const response = await middlewareApi.get("/healthcheck");
-      if (response?.status === 200) {
-        setMode("live");
-      } else {
-        setMode("offline");
-      }
-    } catch (error) {
-      setMode("offline");
-    }
-  }
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState(tabFromUrl || "cpu");
+  const { mode, isLoading, setMode } = useMode();
 
   useEffect(() => {
     setSteps(steps);
   }, [setSteps]);
 
+  // Handle tab from URL parameter (when opened from Nexus) - priority over mode
   useEffect(() => {
-    getMode();
-  }, []);
-
-  useEffect(() => {
-    if (mode === "offline") {
+    if (tabFromUrl) {
+      console.log("Setting active tab from URL:", tabFromUrl);
+      setActiveTab(tabFromUrl);
+    } else if (mode === "development") {
       setActiveTab("cpu");
     }
-  }, [mode]);
+  }, [tabFromUrl, mode]);
+
+  // Log active tab changes for debugging
+  useEffect(() => {
+    console.log("Active tab changed to:", activeTab);
+  }, [activeTab]);
+
+  // Update URL when tab changes
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    setSearchParams({ tab: value }, { replace: true });
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <ModeContext.Provider value={mode}>
-      {mode === "offline" && <Banner />}
+    <>
       <Tour />
       <div className="min-h-screen bg-gradient-to-br from-slate-950 to-slate-900 text-slate-50">
         <Tabs
           value={activeTab}
-          onValueChange={setActiveTab}
+          onValueChange={handleTabChange}
           className="w-full space-y-4"
         >
           <nav className="sticky top-0 z-10 backdrop-blur-md bg-slate-950/80 border-b border-slate-800 px-4 py-3">
@@ -140,17 +146,7 @@ function DashboardComponent() {
                     className="h-6 mb-0"
                   />
                 </a>
-                <TabsList className="bg-slate-900/50 backdrop-blur-sm">
-                  {tabMapping.map((tab) => (
-                    <TabsTrigger
-                      key={tab.id}
-                      value={tab.id}
-                      className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
-                    >
-                      {tab.tag}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
+                <DashboardNavigation activeTab={activeTab} onTabChange={handleTabChange} />
               </div>
               <div className="flex items-center space-x-4">
                 <span id="version" className="text-sm text-slate-400">
@@ -202,10 +198,13 @@ function DashboardComponent() {
               <TabsContent value="resview" className="space-y-8">
                 <ResView />
               </TabsContent>
+              <TabsContent value="query_stats" className="space-y-8">
+                <QueryStats />
+              </TabsContent>
             </motion.div>
           </main>
         </Tabs>
       </div>
-    </ModeContext.Provider>
+    </>
   );
 }
