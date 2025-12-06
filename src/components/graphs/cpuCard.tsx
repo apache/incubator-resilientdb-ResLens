@@ -34,7 +34,7 @@ export function CpuPage() {
 
   return (
     <TourProvider>
-      {(mode === "prod") && <CpuLineGraphFunc setDate={setDate} />}
+      {(mode === "live") && <CpuLineGraphFunc setDate={setDate} />}
       <Flamegraph {...date} />
     </TourProvider>
   );

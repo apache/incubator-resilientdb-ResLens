@@ -47,8 +47,8 @@ export function MemoryTrackerPage() {
         </div>
         <div className="space-y-4">
           <TerminalController />
-          {/* {!(mode === "development") && <StorageEngineMetrics />} */}
-          {(mode === "development") && (
+          {/* {!(mode === "offline") && <StorageEngineMetrics />} */}
+          {(mode === "offline") && (
             <StorageEngineMetrics />
           )}
           <MemoryMetricsGrid />

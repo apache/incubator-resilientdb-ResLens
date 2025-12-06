@@ -123,7 +123,7 @@ export function Explorer() {
             </div>
             <div className="space-y-4">
               <MiscellaneousDataCard loading={loading} data={configData} />
-              {mode === "prod" && <TransactionZoomChart />}
+              {mode === "live" && <TransactionZoomChart />}
             </div>
           </main>
         </CardContent>

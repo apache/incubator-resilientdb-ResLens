@@ -37,7 +37,7 @@ export const TerminalController = (props = {}) => {
     let output: JSX.Element;
 
     if (args[0] === "resdb") {
-      if (mode === "development") {
+      if (mode === "offline") {
         output = <p>Unable to run get and set method in development mode</p>;
       } else if (
         args[1] === "set" &&

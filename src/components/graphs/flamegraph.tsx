@@ -645,7 +645,7 @@ export const Flamegraph = (props: FlamegraphCardProps) => {
           ) : (
             <div>
               {/* Utility Bar - Only show in development mode */}
-              {mode === "development" && (
+              {mode === "offline" && (
                 <div className="utility-bar bg-slate-800/50 border border-slate-700 rounded-lg p-3 mb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">

@@ -133,7 +133,7 @@ export function PageLayout({ children }: PageLayoutProps) {
               </a>
               <div className="flex items-center space-x-2">
                 <ToggleState state={mode} setState={setMode} />
-                {mode === "prod" && (
+                {mode === "live" && (
                   <span className="text-xs text-slate-400 px-2 py-1 bg-slate-800 rounded">
                     {mode}
                   </span>

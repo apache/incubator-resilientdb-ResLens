@@ -40,7 +40,7 @@ interface ModeProviderProps {
 }
 
 export function ModeProvider({ children }: ModeProviderProps) {
-  const [mode, setMode] = useState<ModeType>("prod");
+  const [mode, setMode] = useState<ModeType>("live");
   const [isLoading, setIsLoading] = useState(true);
   const [currentInstance, setCurrentInstance] = useState<string>("production");
   const [error, setError] = useState<string | null>(null);
@@ -59,13 +59,13 @@ export function ModeProvider({ children }: ModeProviderProps) {
         const errorMsg = `Invalid instance: ${targetInstance}. Only 'development' and 'production' are allowed.`;
         console.error(errorMsg);
         setError(errorMsg);
-        setMode("prod");
+        setMode("live");
         setIsLoading(false);
         return;
       }
       
       // Skip if we're already using the correct instance
-      if (currentInstance === targetInstance && mode === "prod") {
+      if (currentInstance === targetInstance && mode === "live") {
         console.log(`Already using ${targetInstance} API, skipping health check`);
         return;
       }
@@ -77,13 +77,13 @@ export function ModeProvider({ children }: ModeProviderProps) {
       
       const response = await api.get("/healthcheck");
       if (response?.status === 200) {
-        setMode("prod");
+        setMode("live");
         setCurrentInstance(targetInstance);
       } else {
-        setMode("development");
+        setMode("offline");
       }
     } catch (error) {
-      setMode("development");
+      setMode("offline");
     } finally {
       setIsLoading(false);
     }
@@ -95,11 +95,11 @@ export function ModeProvider({ children }: ModeProviderProps) {
       setIsLoading(true);
       setError(null);
       
-      // Map mode to instance
-      const instance = newMode === "development" ? "development" : "production";
+      // Map mode to instance - live uses production API, offline uses development API
+      const instance = newMode === "offline" ? "development" : "production";
       
       // Choose API based on new mode
-      const api = newMode === "development" ? middlewareSecondaryApi : middlewareApi;
+      const api = newMode === "offline" ? middlewareSecondaryApi : middlewareApi;
       
       console.log(`Switching to ${newMode} mode, using ${instance} API`);
       
@@ -141,7 +141,7 @@ export function ModeProvider({ children }: ModeProviderProps) {
 
   // Memoize the API selection to prevent infinite loops
   const selectedApi = useMemo(() => {
-    return mode === "development" ? middlewareSecondaryApi : middlewareApi;
+    return mode === "offline" ? middlewareSecondaryApi : middlewareApi;
   }, [mode]);
 
   return (

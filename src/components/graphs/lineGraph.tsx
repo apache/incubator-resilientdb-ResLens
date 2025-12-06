@@ -197,7 +197,7 @@ export const CpuLineGraphFunc: React.FC<CpuLineGraphProps> = ({ setDate }) => {
   }
 
   useEffect(() => {
-    if (mode === "development") {
+    if (mode === "offline") {
       setError("no data available");
       return;
     }
