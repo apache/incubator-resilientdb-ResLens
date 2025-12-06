@@ -25,6 +25,13 @@ const middlewareApi = axios.create({
     baseURL: BASE_URL,
 });
 
+// Secondary API for development mode (uses VITE_MIDDLEWARE_SECONDARY_BASE_URL if available)
+const SECONDARY_BASE_URL = import.meta.env.VITE_MIDDLEWARE_SECONDARY_BASE_URL || BASE_URL;
+const middlewareSecondaryApi = axios.create({
+    baseURL: SECONDARY_BASE_URL,
+});
+
 export {
     middlewareApi, //generic middleware api
+    middlewareSecondaryApi, //secondary middleware api for development mode
 }
