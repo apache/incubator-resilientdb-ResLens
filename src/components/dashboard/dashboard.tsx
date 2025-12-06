@@ -107,7 +107,7 @@ function DashboardComponent() {
     if (tabFromUrl) {
       console.log("Setting active tab from URL:", tabFromUrl);
       setActiveTab(tabFromUrl);
-    } else if (mode === "development") {
+    } else if (mode === "offline") {
       setActiveTab("cpu");
     }
   }, [tabFromUrl, mode]);
