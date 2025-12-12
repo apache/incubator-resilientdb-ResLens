@@ -18,20 +18,15 @@
 *
 */
 
-import { BASE_URL } from '@/static/url';
-import axios from 'axios';
+import { Loader2 } from "lucide-react";
 
-const middlewareApi = axios.create({
-    baseURL: BASE_URL,
-});
-
-// Secondary API for development mode (uses VITE_MIDDLEWARE_SECONDARY_BASE_URL if available)
-const SECONDARY_BASE_URL = import.meta.env.VITE_MIDDLEWARE_SECONDARY_BASE_URL || BASE_URL;
-const middlewareSecondaryApi = axios.create({
-    baseURL: SECONDARY_BASE_URL,
-});
-
-export {
-    middlewareApi, //generic middleware api
-    middlewareSecondaryApi, //secondary middleware api for development mode
-}
+export function Loading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 to-slate-900 text-slate-50 flex items-center justify-center">
+      <div className="flex flex-col items-center space-y-4">
+        <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+        <p className="text-slate-300">Checking connection...</p>
+      </div>
+    </div>
+  );
+} 
