@@ -18,20 +18,19 @@
 *
 */
 
-import { BASE_URL } from '@/static/url';
-import axios from 'axios';
+import { Flamegraph } from "@/components/graphs/flamegraph";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-const middlewareApi = axios.create({
-    baseURL: BASE_URL,
-});
+export function FlamegraphPage() {
+  const fromTime = Date.now() - 3600000;  
+  const untilTime = Date.now();
 
-// Secondary API for development mode (uses VITE_MIDDLEWARE_SECONDARY_BASE_URL if available)
-const SECONDARY_BASE_URL = import.meta.env.VITE_MIDDLEWARE_SECONDARY_BASE_URL || BASE_URL;
-const middlewareSecondaryApi = axios.create({
-    baseURL: SECONDARY_BASE_URL,
-});
-
-export {
-    middlewareApi, //generic middleware api
-    middlewareSecondaryApi, //secondary middleware api for development mode
-}
+  return (
+    <PageLayout>
+      <Flamegraph 
+        from={fromTime} 
+        until={untilTime}
+      />
+    </PageLayout>
+  );
+} 

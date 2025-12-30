@@ -18,20 +18,13 @@
 *
 */
 
-import { BASE_URL } from '@/static/url';
-import axios from 'axios';
+import { MemoryTrackerPage } from "@/components/graphs/MemorySpecs/memoryTrackerPage";
+import { PageLayout } from "@/components/layout/PageLayout";
 
-const middlewareApi = axios.create({
-    baseURL: BASE_URL,
-});
-
-// Secondary API for development mode (uses VITE_MIDDLEWARE_SECONDARY_BASE_URL if available)
-const SECONDARY_BASE_URL = import.meta.env.VITE_MIDDLEWARE_SECONDARY_BASE_URL || BASE_URL;
-const middlewareSecondaryApi = axios.create({
-    baseURL: SECONDARY_BASE_URL,
-});
-
-export {
-    middlewareApi, //generic middleware api
-    middlewareSecondaryApi, //secondary middleware api for development mode
-}
+export function MemoryPage() {
+  return (
+    <PageLayout>
+      <MemoryTrackerPage />
+    </PageLayout>
+  );
+} 
